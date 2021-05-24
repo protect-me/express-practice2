@@ -32,6 +32,14 @@ app.get("/", (req, res) => {
 
 app.use("/admin", admin);
 
+// 에러핸들링
+app.use((req, res, _) => {
+  res.status(404).render("common/404.html");
+});
+app.use((err, req, res, _) => {
+  res.status(500).render("common/500.html");
+});
+
 app.listen(port, () => {
   console.log("express listening on port : ", port);
 });
