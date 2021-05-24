@@ -21,6 +21,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // 업로드 path 추가
 app.use("/uploads", express.static("uploads"));
 
+app.use((res, req, next) => {
+  app.locals.isLogin = true;
+  next();
+});
+
 app.get("/", (req, res) => {
   res.send("hello express!");
 });
