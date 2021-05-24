@@ -1,5 +1,6 @@
 const express = require("express");
 const nunjucks = require("nunjucks");
+const logger = require("morgan");
 
 const admin = require("./routes/admin.js");
 
@@ -10,15 +11,20 @@ nunjucks.configure("template", {
   autoescape: true,
   express: app,
 });
-// 폴더명 : template
-// 보안유지 : autoescape
-// express : app 할당
+
+// 미들웨어 셋팅
+app.use(logger("dev"));
 
 app.get("/", (req, res) => {
   res.send("hello express!");
 });
 
-app.use("/admin", admin);
+function vipMiddleware(req, res, next) {
+  console.log("middleware vip");
+  next();
+}
+
+app.use("/admin", vipMiddleware, admin);
 
 app.listen(port, () => {
   console.log("express listening on port : ", port);
