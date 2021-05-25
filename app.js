@@ -23,6 +23,7 @@ app.use("/uploads", express.static("uploads"));
 
 app.use((res, req, next) => {
   app.locals.isLogin = true;
+  app.locals.req_path = req.path; // 현재 url
   next();
 });
 
